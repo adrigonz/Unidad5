@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body> 
+	<h1>Restaurant</h1>
+	<h:form id="frmRestaurant">
+		Name:<h:inputText value="#{restaurantController.restaurant.name}" />
+		Location:<h:inputText value="#{restaurantController.restaurant.location}" />
+		Category:<h:inputText value="#{restaurantController.restaurant.category}" />
+		<h:commandButton action="#{restaurantController.save}" value="Save">
+			<f:ajax execute="frmRestaurant" render="dtRestaurant"></f:ajax>
+		</h:commandButton>
+		<h:commandButton rendered="#{customerController.editMode}"
+		action="#{restaurantController.save}" value="Cancel">
+			<f:ajax render="dtRestaurant"></f:ajax>
+		</h:commandButton>
+		<h:dataTable value="#{restaurantController.restaurants}"
+		 var="r" id="dtRestaurant">
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				#{r.id}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+				#{r.name}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Location</f:facet>
+				#{r.location}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Category</f:facet>
+				#{r.category}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Actions</f:facet>
+				<h:commandButton 
+					action="#{restaurantController.delete(r)}"
+				 	value="Delete"
+				 	onclick="return window.confirm('Are you sure?')">
+				 	<f:ajax render="frmRestaurant:dtRestaurant"></f:ajax>
+				 </h:commandButton>
+				 <h:commandButton 
+					action="#{restaurantController.update(r)}"
+				 	value="Update">
+				 	<f:ajax render="frmRestaurant"></f:ajax>
+				 </h:commandButton>
+			</h:column>
+		</h:dataTable>
+	</h:form>
+</body> 
+</html>
